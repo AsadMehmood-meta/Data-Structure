@@ -8,20 +8,60 @@ class node{
 		node* next;
 };
 
-node* insert_at_start(node* head , int data){
+void insert_at_start(node*& head , int data);
+void insert_at_end(node*& head , int data);
+void displayNode(node* head);
+void delete_at_start(node*& head);
+void delete_at_end(node*& head);
+void search_data(node* head , int x);
+
+int main(){
+	node* asad = NULL;
+	
+	delete_at_start(asad);
+	delete_at_end(asad);
+	
+	insert_at_start( asad ,  50);
+	insert_at_start( asad ,  20);
+	insert_at_start( asad ,  15);
+	insert_at_start( asad ,  10);
+	insert_at_end( asad ,  70);
+	insert_at_end( asad ,  80);
+	insert_at_end( asad ,  100);
+	
+	search_data(asad , 50);
+	search_data(asad , 100);
+	search_data(asad , 20);
+	
+	displayNode(asad);
+	
+	delete_at_start(asad);
+	
+	displayNode(asad);
+	
+	delete_at_end(asad);
+	
+	displayNode(asad);
+	
+	return 0;
+}
+
+void insert_at_start(node*& head , int data){
 	node* newNode = new node();
 	newNode->data = data;
 	newNode->next = head;
-	return newNode;
+	head = newNode;
+	return;
 }
 
-node* insert_at_end(node* head , int data){
+void insert_at_end(node*& head , int data){
 	node* newNode = new node();
 	newNode->data = data;
 	newNode->next = NULL;
 	
 	if(head == NULL){
-		return newNode;
+		head = newNode;
+		return;
 	}
 	
 	node* temp = head;
@@ -31,7 +71,7 @@ node* insert_at_end(node* head , int data){
 	}
 	
 	temp->next = newNode;
-	return head;
+	return;
 }
 
 void displayNode(node* head){
@@ -42,12 +82,57 @@ void displayNode(node* head){
 	cout<<"Null\n";
 }
 
-int main(){
-	node* asad = NULL;
+void delete_at_start(node*& head){
+	if(head == NULL){
+		cout<<"List is empty already.\n";
+		return;
+	} else{
+		head = head->next;
+		return;
+	}
+}
+
+void delete_at_end(node*& head){
+	if(head == NULL){
+		cout<<"List is empty already.\n";
+		return;
+	}
 	
-	asad = insert_at_start( asad ,  5);
-	asad = insert_at_start( asad ,  2);
-	asad = insert_at_end( asad ,  10);
+	if(head->next == NULL){
+		delete head;
+		head = NULL;
+		return;
+	}
 	
-	displayNode( asad);
+	node* temp = head;
+	
+	while(temp->next->next != NULL){
+		temp = temp->next;
+	}
+	
+	delete temp->next;
+	temp->next = NULL;
+	return;
+}
+
+
+void search_data(node* head , int x){
+	node* temp = head;
+	int count = 1;
+	bool found = false;
+	
+	while(temp != NULL){
+		if(temp->data == x){
+			cout<<x<<" is in "<<count<<" node.\n";
+			found = true;
+			break;
+		}
+		
+		temp = temp->next;
+		count++;
+	}
+	
+	if(!found){
+		cout<<x<<" is not exist in list.\n";
+	}
 }
